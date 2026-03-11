@@ -1,0 +1,26 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.so
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Django-specific files
+*.log
+*.pot
+*.sqlite3
+local_settings.py
+media/ # The folder where user-uploaded media files are stored
+
+# IDE-specific files (e.g., VS Code, PyCharm)
+.idea/
+.vscode/
+
+# Operating System files
+.DS_Store # macOS
+Thumbs.db # Windows
