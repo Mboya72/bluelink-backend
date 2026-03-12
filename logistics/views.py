@@ -3,14 +3,29 @@ from rest_framework.response import Response
 from rest_framework.exceptions import PermissionDenied
 from .models import Route, Truck, TransportJob, GPSLog
 from .serializers import RouteSerializer, TruckSerializer, TransportJobSerializer
+from rest_framework import viewsets, permissions
+from rest_framework.decorators import action  # <--- Add this line
+from rest_framework.response import Response  # Ensure this is also imported
 
 class TruckViewSet(viewsets.ModelViewSet):
     queryset = Truck.objects.all()
     serializer_class = TruckSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
-    def perform_create(self, serializer):
-        serializer.save(driver=self.request.user)
+    @action(detail=False, methods=['get'])
+    def summary(self, request):
+        """
+        Returns a summary of truck statistics for the seller.
+        URL: /api/logistics/trucks/summary/
+        """
+        total = self.get_queryset().count()
+        available = self.get_queryset().filter(is_available=True).count()
+        
+        return Response({
+            "total_trucks": total,
+            "available_trucks": available,
+            "in_transit": total - available,
+            "monthly_revenue": 0.00  # You can link your Finance model here later
+        })
 
 class TransportJobViewSet(viewsets.ModelViewSet):
     queryset = TransportJob.objects.all()
