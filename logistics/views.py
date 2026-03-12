@@ -46,3 +46,7 @@ class BuyerTrackOrderView(generics.RetrieveAPIView):
         if job.order.buyer != self.request.user:
             raise PermissionDenied("Unauthorized: You cannot track this order.")
         return job
+    
+class RouteViewSet(viewsets.ModelViewSet):
+    queryset = Route.objects.all()
+    serializer_class = RouteSerializer

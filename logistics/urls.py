@@ -1,6 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import (
+    RouteViewSet,
     TruckViewSet, 
     TransportJobViewSet, 
     DriverLocationUpdateView, 
@@ -11,6 +12,7 @@ from .views import (
 router = DefaultRouter()
 router.register(r'trucks', TruckViewSet, basename='truck')
 router.register(r'jobs', TransportJobViewSet, basename='transport-job')
+router.register(r'routes', RouteViewSet, basename='route')
 
 urlpatterns = [
     # 2. Include the Router URLs (trucks and general jobs)
