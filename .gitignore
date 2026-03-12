@@ -9,6 +9,8 @@ __pycache__/
 env/
 venv/
 ENV/
+*.crt
+*.key
 
 # Django-specific files
 *.log

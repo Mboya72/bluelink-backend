@@ -11,6 +11,32 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
+
+AUTH_USER_MODEL = 'users.User'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),   # Short-lived for security
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,                   # New refresh token on every use
+    'BLACKLIST_AFTER_ROTATION': True,               # Prevents old tokens from being reused
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
+
+# Security Headers
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_HSTS_SECONDS = 31536000
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -47,6 +73,10 @@ INSTALLED_APPS = [
     'communication',
     'analytics',
     'platform_admin',
+    'django_filters',
+    'rest_framework',
+    'rest_framework_simplejwt',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -78,6 +108,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'bluelink.wsgi.application'
 
+CORS_ALLOW_ALL_ORIGINS = True # Fine for development
+
+# 3. Only enable these if you are ALWAYS using HTTPS
+# If you switch back to HTTP, set these to False
+SECURE_SSL_REDIRECT = False # Set to True if using Option A/B and want to force it
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'https://[127.0.0.1]:8000/']
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
