@@ -1,8 +1,8 @@
 from rest_framework import viewsets, generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.exceptions import PermissionDenied
-from .models import Truck, TransportJob, GPSLog
-from .serializers import TruckSerializer, TransportJobSerializer
+from .models import Route, Truck, TransportJob, GPSLog
+from .serializers import RouteSerializer, TruckSerializer, TransportJobSerializer
 
 class TruckViewSet(viewsets.ModelViewSet):
     queryset = Truck.objects.all()

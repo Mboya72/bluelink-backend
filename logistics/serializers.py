@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Truck, TruckImage
+from .models import Truck, TruckImage, TransportJob, Route
 
 class TruckImageSerializer(serializers.ModelSerializer):
     class Meta:

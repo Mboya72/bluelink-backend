@@ -18,7 +18,28 @@ class Truck(models.Model):
 
     def __str__(self):
         return f"{self.vehicle_number} ({self.vehicle_type})"
+class Route(models.Model):
+    name = models.CharField(max_length=255, help_text="e.g., Mombasa to Nairobi")
+    origin_name = models.CharField(max_length=255)
+    origin_lat = models.DecimalField(max_digits=9, decimal_places=6)
+    origin_lng = models.DecimalField(max_digits=9, decimal_places=6)
+    
+    destination_name = models.CharField(max_length=255)
+    destination_lat = models.DecimalField(max_digits=9, decimal_places=6)
+    destination_lng = models.DecimalField(max_digits=9, decimal_places=6)
+    
+    # Store the 'road' as a Polyline string (common for Google Maps/Leaflet)
+    polyline = models.TextField(help_text="Encoded string representing the road path")
+    distance_km = models.DecimalField(max_digits=7, decimal_places=2)
+    estimated_time = models.DurationField()
 
+    def __str__(self):
+        return self.name
+    
+class TransportJob(models.Model):
+    # ... other fields ...
+    route = models.ForeignKey(Route, on_delete=models.SET_NULL, null=True, blank=True)
+    
 # NEW MODEL for multiple pictures:
 class TruckImage(models.Model):
     truck = models.ForeignKey(Truck, on_delete=models.CASCADE, related_name='images')
@@ -81,26 +102,3 @@ class GPSLog(models.Model):
     class Meta:
         ordering = ["-timestamp"]
 
-
-class Route(models.Model):
-    name = models.CharField(max_length=255, help_text="e.g., Mombasa to Nairobi")
-    origin_name = models.CharField(max_length=255)
-    origin_lat = models.DecimalField(max_digits=9, decimal_places=6)
-    origin_lng = models.DecimalField(max_digits=9, decimal_places=6)
-    
-    destination_name = models.CharField(max_length=255)
-    destination_lat = models.DecimalField(max_digits=9, decimal_places=6)
-    destination_lng = models.DecimalField(max_digits=9, decimal_places=6)
-    
-    # Store the 'road' as a Polyline string (common for Google Maps/Leaflet)
-    polyline = models.TextField(help_text="Encoded string representing the road path")
-    distance_km = models.DecimalField(max_digits=7, decimal_places=2)
-    estimated_time = models.DurationField()
-
-    def __str__(self):
-        return self.name
-
-# Link it to your existing TransportJob
-class TransportJob(models.Model):
-    # ... other fields ...
-    route = models.ForeignKey(Route, on_delete=models.SET_NULL, null=True, blank=True)
