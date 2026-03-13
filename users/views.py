@@ -45,3 +45,9 @@ class RegisterView(APIView):
             }, status=status.HTTP_201_CREATED)
             
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.permissions import AllowAny
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    permission_classes = [AllowAny] # This allows users to login without a token

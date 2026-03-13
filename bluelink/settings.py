@@ -8,10 +8,13 @@ SECRET_KEY = 'django-insecure-2*y6x+q-^7_l3-@3@=ltlggk35ot7r(k4g$^q_63x8-%q!&9(8
 
 DEBUG = True
 
+ASGI_APPLICATION = 'bluelink.asgi.application'
+
 # Fixed ALLOWED_HOSTS: Removed 'https://' prefix as it only takes domains/IPs
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '10.0.2.2'] # 10.0.2.2 is for Android Emulator
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,6 +41,7 @@ INSTALLED_APPS = [
     'django_filters',
     'django_extensions',
     'corsheaders', # Added for Flutter connection
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -111,6 +115,15 @@ TEMPLATES = [
         },
     },
 ]
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6380)], # Updated to match your open port
+        },
+    },
+}
 
 WSGI_APPLICATION = 'bluelink.wsgi.application'
 
